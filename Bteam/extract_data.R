@@ -1,20 +1,20 @@
 rm(list=ls())
 library(gdata)
-setwd("~/Documents/Delhi/BTeam/Actuals1213")
+library(ggplot2)
 
-#function to put energy consumption for each company at each day within the SAME week together
+#store data on energy consumption for each company at each day within the SAME week together
 dayE <- function(file){
   #read excel
   week <- read.xls(file, header = FALSE) 
   #rename column names 
   names <- c()
-  for (i in 1:56){names[i] <- as.character(week[2, i])}
+  for (i in 1:ncol(week)){names[i] <- as.character(week[2, i])}
   colnames(week) <- names
   #extract dates of the week
   dates <- c(as.character(week[1, 1]), as.character(week[1, 9]), as.character(week[1, 16]),
              as.character(week[1, 23]), as.character(week[1, 30]), as.character(week[1, 37]),
              as.character(week[1, 44]))
-  #subset the last row for each day and combine them together
+  #subset the total MUs for each day
   daily_total <- week[99, ]
   Mon <- daily_total[,c(2,3,4,5,6)]
   Tue <- daily_total[,c(9,10,11,12,13)]
@@ -29,17 +29,50 @@ dayE <- function(file){
   return (total_each_day)
 }
 
-#function to summarize energy consumption for each company at each day across all weeks in 2012-2013
-oneF <- function(){
-  weeks <- data.frame()  
-  #!!because of loss of datasets, need to extend this to 50 later
-  for (i in 1:27){
-    renew <- dayE(paste("ACTUAL", as.character(i), ".xls", sep=""))
-    weeks <- rbind(weeks, renew)
-  }  
-  return(weeks)
+#count the number of files of the same extension ".xls" in a given folder
+countFiles <- function(foldername, extension){
+  name = paste0("*.", extension)
+  list <- list.files(path.expand(foldername), pattern = name)
+  return(length(list))
 }
 
-#summary dataset
-oneF()
+#summarize energy consumption for each company at each day across all weeks
+oneF <- function(foldername){
+  setwd(foldername)
+  weeks <- data.frame()  
+  #!!because of loss of datasets, need to extend this to 50 later
+  n <- countFiles(foldername, "xls")  
+  
+  if (substr(foldername, start=25, stop=29)=="10-11")
+    #since no data before 2012-06-07
+    for (i in 6:n+5){
+      renew <- dayE(paste(as.character(i), ".xls", sep=""))
+      weeks <- rbind(weeks, renew) 
+    }
+    #since no data after 2012-09-30
+  else if (substr(foldername, start=25, stop=29)=="12-13")
+  for (i in 1:27){
+    renew <- dayE(paste(as.character(i), ".xls", sep=""))
+    weeks <- rbind(weeks, renew)
+  }
+  else
+    for (i in 1:n){
+      renew <- dayE(paste(as.character(i), ".xls", sep=""))
+      weeks <- rbind(weeks, renew)
+    }
+  return(weeks) 
+  }  
+
+#summary dataset for year 2010-2013
+day_2010 <- oneF("~/Documents/Delhi/BTeam/10-11")
+
+day_2011 <- oneF("~/Documents/Delhi/BTeam/11-12")
+
+day_2012 <- oneF("~/Documents/Delhi/BTeam/12-13")
+
+#Data summary from 2010-06-07 to 2012-9-30, data after 2012-9-30 is lost
+day_total <- rbind(day_2010, day_2011, day_2012)
+
+setwd("~/Documents/Delhi/BTeam")
+save(day_total, file = "total_daily.Rdata")
 
