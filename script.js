@@ -20,8 +20,8 @@ var margin = {
     
 
 d3.csv("Delhi_India_Halfhourly_Demand.csv", function(data) {
-  var demand = getData(data); // 365 days/year x 24 hours/day = 8760 observations
-  demand = demand.slice(0, 7 * 24) // 7 days x 24 hours/day = 168 observations
+  var demand = getData(data); // 420 days x 24 hours/day x 2 obs/hour = 20,194 observations
+  demand = demand.slice(0, 7 * 24 * 2) // 7 days x 24 hours/day x 2 obs/hour = 336 observations
   console.log(data);
   console.log(demand);
 
