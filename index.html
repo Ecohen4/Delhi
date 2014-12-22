@@ -4,25 +4,42 @@
 <html>
 <head>
 	<title>Delhi Energy Project</title>
-	<h1 style="font-family:Impact, fantasy;font-size:25px;text-align:center;">2012 Delhi Electricity Consumption Analysis</h1>
-	<h2 style="font-family:verdana;font-size:12px;text-align:center;">Hover to View Detailed Electricity Consumption ( Max/Min are identified in bold borders)</h2>
-	<h3></h3>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src="cal-heatmap.min.js"></script>
 	<link rel="stylesheet" href="cal-heatmap5.css" />
 </head>
 
 
-<body>
-  <p>We are investigating disparities in electricity access and consumption within Delhi.  We have electricity load data at the meter/feeder level (measured every 15 minutes, daily from 2010 - 2013*) from the three private electricity distribution companies (NDPL North Delhi Power Limited, BYPL BSES Yamuna Power Limited, BRPL BSES Rajdhani Power Limited) and the New Delhi Municipal Committee (NDMC) and Military Engineer Services (MES).</p> 
+  <h1>Delhi Energy Project</h1>
+  <h2>Spatial Analysis of Energy Consumption</h2>
+  <h3>Motivation</h3>
+  <p>In 2006, the United Nations Development Programme, the UN Millennium Project, and the World Bank issued a joint statement:</p>
+
+  <blockquote>The world has an unprecedented opportunity to improve the lives of billions of people by meeting the Millennium Development Goals (MDGs), the international community’s time-bound and quantified targets for addressing extreme poverty in its many forms.
+    [...] A common finding of the ten Task Forces of the UN Millennium Project has been the urgent need to improve access to energy services as essential inputs for meeting each MDG. Without increased investment in the energy sector, the MDGs will not
+    be achieved in the poorest countries (Modi et al. 2006).</blockquote>
+
+  <p>Today, significant progress has been made in improving energy access in the world's poorest countries. Yet disparities persist. One intirquing and often underappreciated area of disparity is within cities. While the urban-rural divide in energy access is well known -- with many studies citing that urban residents have, on average, much higher per-capita energy use than their rural counterparts, averages do not tell the full story. Vast disparities exist between high-income and low-income (and especially informal) urban neighborhoods.</p>
+  <p>Urban-urban disparities can be particularly stark in emerging megacities, which bear the weight of huge, and growing populations. Public infrastructure and critical city services are often lacking to begin with, and are further
+    overwhelmed by the influx of rural-to-urban migration. This study explores such issues vis-a-vis energy trends for Delhi, India.</p>
+
+<h3>Background</h3>
+  <p>Delhi is the world’s second largest city (UN 2009) with a population of 22 million and an observed growth rate of nearly 40% over the last decade (Delhi Statistical Handbook 2012). The megacity’s shear size and rapid growth are compounded by increasing
+    per-capita demand for energy, water and materials (Statistical Handbook 2012); placing ever-increasing stress on finite local resources (Upadhyay 2011; Paliwal et al. 2006; CPCB 2006) and increasing the city’s reliance on trans-boundary resources
+    and trans-boundary infrastructures (Cohen and Ramaswami 2014).</p>
+  <p>
+    Delhi, like developing cities the world over, is undergoing a dramatic transformation in the way it uses energy. In just two years from 2010-2012, peak energy demand in Delhi increased 15% (4677 MW to 5407 MW) and energy consumption increased an astounding
+    30% (20.35 TWh to 26.65 TWh). The figure below shows a calendar heatmap of energy consumption in Delhi for 2012. Each square is a day. Darker shades represent higher energy consumption. Units are GWh.
+  </p>
+  <h3>Research Questions</h3>
+  <p> We are interested in neighborhood-level disparities in energy access, consumption and reliability in the Capital of India. These three elements are cornerstones of the ten-year Millenium Development Goals (MDG), and the subsequent Sustainable Development Goals (SDG), including the ambitious sustainable energy for all (SE4ALL) initiative. SE4ALL vows by 2030 to:</p>
   <ul>
-    <li>From 2010-03-29 to 2013-03-10, also partial data from 2008 and 2009</li>
+    <li>Ensure universal access to modern energy services.</li>
+    <li>Double the global rate of improvement in energy efficiency.</li>
+    <li>Double the share of renewable energy in the global energy mix.</li>
   </ul>
 
-  <p>The data that we have also calculates weekly net consumption by grid and these grids have been assigned names of actual locations in Delhi which we have mapped below (grid "Pappankalan-1" and "Pappankalan-2" were merged into 1 location, and NDMC and MES were added to the list, to make a total of 22 grid locations).  Based on these locations, we created Voronoi polygons to approximate the areas being serviced by these grids, and these "grid areas" (dashed lines) have been overlaid on a map of Delhi and its 9 districts.</p>
-
-  <p>We are currently looking for population, income, and other socio-economic/demographic data at the district/sub-district level that can then be associated with the weekly electricity consumption data recorded for each grid.</p>
-
+<h3 style="font-family:verdana;font-size:12px;text-align:center;"> Mouse-over Figure to View Daily Electricity Consumption Details for Delhi, India. Annual Max/Min are identified with bold borders. All values are in GWh.</h3>
   <div id="cal-heatmap"></div>
      <script type="text/javascript">
 
