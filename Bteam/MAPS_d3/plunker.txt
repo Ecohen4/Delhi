@@ -1,0 +1,17 @@
+PLUNKER links:
+
+time-series: Average Energy Supply in fifteen minutes throughout a day (mWh/0.25h)
+             http://plnkr.co/edit/Y5OCeu75rAzLgmaoC8ZO?p=preview
+
+pie-chart (1) Total Energy Consumption in fifteen minutes throughout a day (mWh)
+              http://plnkr.co/edit/zKtf0ErStVP8IVJQs9s9?p=preview
+
+              Household Energy Consumption in fifteen minutes throughout a day (kWh)
+          (2) http://plnkr.co/edit/QyP70hk15osRiKbfBcGr?p=preview
+
+map: (1) Average Energy Supply in fifteen minutes throughout a day(mWh/0.25h)
+         http://plnkr.co/edit/k4kIJZrOmfLehGU1xUZ6?p=preview
+
+     (2)Total Energy Consumption per household in a day (kWh):
+        http://plnkr.co/edit/7XLzsJj8KwXvqGMczdG6?p=preview
+
