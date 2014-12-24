@@ -1,2 +1,5 @@
 *.xlsx
 *.xls
+*.RData
+*.Rapp.history
+*.Rhistory
