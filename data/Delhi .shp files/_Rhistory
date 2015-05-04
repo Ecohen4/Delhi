@@ -1,0 +1,512 @@
+head(results, 11)
+E_X(0.5)
+E_X(0.9)
+E_X(0.1)
+p <- ((1:m)/n)
+p[1]
+for (i in 1:m){
+EX <- E_X(p[i])
+}
+EX[i] <- E_X(p[i])
+EX <- vector(mode="numeric", length=m)
+for (i in 1:m){
+EX[i] <- E_X(p[i])
+}
+results <- data.frame(cbind(p, EX))
+head(results, 9)
+4*sum(choose(8,8), choose(8,7), choose(8,6), choose(8,5), choose(8,4), choose(8,3), choose(8,2), choose(8,1), choose(8,0))
+4*sum(choose(8,8:0))
+plot(qnorm)
+plot(fnorm)
+plot(pnorm)
+plot(norm)
+# define a function to return E(X) when given a p
+E_X <- function(p){
+return(sum(x*(-p^x/(x*log(1-p)))))
+}
+# create an array of xs
+x <- (1:10000)
+E_X(0.1)
+n <- 10
+m <- n-1
+p <- ((1:m)/n)
+# initialize a vector to store the results
+EX <- vector(mode="numeric", length=m)
+# calculate EX for each p
+for (i in 1:m){
+EX[i] <- E_X(p[i])
+}
+# store results in a data frame
+results <- data.frame(cbind(p, EX))
+head(results, 9)
+args(pbinom)
+pbinom(2, 1)
+pbinom(2, 1, .5)
+?pbinom
+pbinom(1, 1, .5)
+pbinom(1, 10, .5)
+pbinom(2, 10, .5)
+pbinom(3, 10, .5)
+pbinom(10, 10, .5)
+n <-10
+pbinom(10, size=n, prob=.5)
+pbinom(q=m, size=n, prob=.5)
+n <-10
+m <- 4
+(pbinom(q=m, size=n, prob=.5))^2
+prob_c1 <- .7
+prob_c2 <- 1-prob_c1
+pbinom(q=m, size=n, prob=prob_c1) * pbinom(q=m, size=n, prob=prob_c2)
+n <-10
+m <- 4
+pbinom(q=m, size=n, prob=prob_c1) * pbinom(q=m, size=n, prob=prob_c2)
+50/90
+55/100
+45/100
+50/110
+4*sum(choose(8,8:0))
+(4*sum(choose(8,8:0)))^2
+head(results, 9)
+q <- (1:10)
+q
+sum(q)
+E_X(0.1)
+E_X(.1)
+E_X(.1)
+E_X(.3)
+E_X(.5)
+E_X(.7)
+# define a function to return E(X) when given a p
+E_X <- function(p){
+return(sum(x*(-(p^x)/(x*log(1-p)))))
+}
+# create an array of xs
+x <- (1:10000)
+# create an array of ps with many rational numbers between 0 and 1 exclusive
+# how many ps do you want?
+n <- 10
+m <- n-1
+p <- ((1:m)/n)
+# initialize a vector to store the results
+EX <- vector(mode="numeric", length=m)
+# calculate EX for each p
+for (i in 1:m){
+EX[i] <- E_X(p[i])
+}
+# store results in a data frame
+results <- data.frame(cbind(p, EX))
+head(results, 9)
+library(knitr)
+?rmarkdown
+?rmarkdown
+install.packages(c("knitr", "yaml", "devtools", "MCMCpack", "coda", "shiny"))
+cat("options(contrasts = c(unordered = 'contr.treatment',
+ordered = 'contr.treatment'))",
+sep = "\n", file = path.expand("~/.Rprofile"), append = TRUE)
+prob <- function(m, n, p_c1){
+prob_c2 <- 1-prob_c1
+prob <- pbinom(q=m, size=n, prob=prob_c1) * pbinom(q=m, size=n, prob=prob_c2)
+return(prob)
+}
+n <- 10
+prob(m=5, n=n, p_c1=.5)
+prob(m=10, n=n, p_c1=.5)
+prob(m=9, n=n, p_c1=.5)
+prob(m=8, n=n, p_c1=.5)
+prob(m=9, n=n, p_c1=.5)
+prob(m=80, n=n, p_c1=.5)
+n <- 100
+prob(m=80, n=n, p_c1=.5)
+prob(m=75, n=n, p_c1=.5)
+prob(m=76, n=n, p_c1=.5)
+prob(m=77, n=n, p_c1=.5)
+prob(m=777, n=n, p_c1=.5)
+prob(m=600, n=n, p_c1=.5)
+prob(m=550, n=n, p_c1=.5)
+n <- 1000
+prob(m=550, n=n, p_c1=.5)
+prob(m=777, n=n, p_c1=.5)
+prob(m=700, n=n, p_c1=.5)
+prob(m=730, n=n, p_c1=.5)
+prob(m=725, n=n, p_c1=.5)
+prob(m=723, n=n, p_c1=.5)
+prob(m=724, n=n, p_c1=.5)
+p_c1 <- .5
+prob(m=9, n=n, p_c1=p_c1)
+n <- 10
+prob(m=9, n=n, p_c1=p_c1)
+n <- 10000
+prob(m=7230, n=n, p_c1=p_c1)
+prob(m=7200, n=n, p_c1=p_c1)
+prob(m=7000, n=n, p_c1=p_c1)
+prob(m=7100, n=n, p_c1=p_c1)
+prob(m=7050, n=n, p_c1=p_c1)
+prob(m=7070, n=n, p_c1=p_c1)
+prob(m=7080, n=n, p_c1=p_c1)
+prob(m=7079, n=n, p_c1=p_c1)
+prob(m=7078, n=n, p_c1=p_c1)
+prob(m=7077, n=n, p_c1=p_c1)
+prob(m=7076, n=n, p_c1=p_c1)
+prob(m=7075, n=n, p_c1=p_c1)
+prob(m=7074, n=n, p_c1=p_c1)
+prob(m=7074, n=n, p_c1=p_c1)
+prob(m=7075, n=n, p_c1=p_c1)
+# rough outlines of the code - not completed.
+fY <- function(y){
+#return(PDF of Y)
+return(y^2)
+}
+plot(fY)
+50/90
+55/100
+50/110
+45/100
+install.packages("scatterplot3d")
+Sigma <- Harman23.cor$cov
+rownames(Sigma) <- colnames(Sigma) <- abbreviate(colnames(Sigma), 6)
+I <- diag(ncol(Sigma))                  # identity matrix
+Sigma_inv <- solve(Sigma, I)            # find X such that Sigma X = I
+Sigma_inv_hf <- solve(Sigma)
+all.equal(Sigma_inv, Sigma_inv_hf)
+L <- t(chol(Sigma))
+all.equal(Sigma, L %*% t(L))            # t() means transpose
+all.equal(Sigma_inv, Sigma_inv_hf)
+L_inv <- forwardsolve(L, I)             # exploits fact that L is lower triangular
+Sigma_inv <- crossprod(L_inv)           # t(L_inv) %*% L_inv
+round(Sigma %*% Sigma_inv, 14)          # check to fourteen decimal places
+rmultinormal <- function(n, mu = rep(0, ncol(L)), L = diag(length(mu))) {
+return(t(mu + L %*% matrix(rnorm(n * ncol(L)), ncol = n)))
+}
+X <- rmultinormal(10000, L = L)
+round(head(X), digits = 2)
+round(cor(X), digits = 2)
+apply(head(X) , 0, MARGIN = 1, FUN = all)
+apply(head(X) < 0, MARGIN = 1, FUN = all)
+mean(apply(head(X) < 0, MARGIN = 1, FUN = all))
+X <- rmultinormal(10000, L = L)
+mean(apply(head(X) < 0, MARGIN = 1, FUN = all))
+dmultinormal <- function(x, mu = rep(0, ncol(L)), L = diag(length(mu))) {
+det_L <- prod(diag(L))
+L_inv <- forwardsolve(L, diag(ncol(L)))
+if(is.matrix(x)) {
+x_mu <- t(sweep(x, MARGIN = 2, STATS = mu, FUN = "-")) # subtract mu and transpose
+z <- L_inv %*% x_mu
+f <- dnorm(z)
+return(apply(f, MARGIN = 2, FUN = prod) / det_L)
+}
+else return(prod(dnorm(L_inv %*% (x - mu))) / det_L)
+}
+rLKJ <-
+function (K, eta = 1) {
+stopifnot(is.numeric(K), K >= 1, K == as.integer(K))
+stopifnot(eta > 0)
+if (K == 1) return(matrix(1, 1, 1))
+alpha <- eta + (K - 2)/2
+r12 <- 2 * rbeta(1, alpha, alpha) - 1
+R <- matrix(0, K, K) # upper triangular Cholesky factor until return()
+R[1,1] <- 1
+R[1,2] <- r12
+R[2,2] <- sqrt(1 - r12^2)
+if(K > 2) for (m in 2:(K - 1)) {
+alpha <- alpha - 0.5
+y <- rbeta(1, m / 2, alpha)
+# Draw uniformally on a hypersphere
+z <- rnorm(m, 0, 1)
+z <- z / sqrt(crossprod(z)[1])
+R[1:m,m+1] <- sqrt(y) * z
+R[m+1,m+1] <- sqrt(1 - y)
+}
+return(crossprod(R))
+}
+p <- rdirichlet(10, alpha = c(1,1,1))
+p
+library(MCMCpack)
+install.packages("MCMCpack"")
+install.packages("MCMCpack")
+install.packages("MCMCpack")
+library(MCMCpack)
+p <- rdirichlet(10, alpha = c(1,1,1))
+p
+rowSums(p)
+ddirichlet(p, alpha = c(1,1,1))
+R <- rcauchy(1, location=0, scale = 1)
+(R <- rcauchy(1, location=0, scale = 1))
+(  R <- sqrt(rcauchy(1, location=0, scale = 1)) )
+(  R <- sqrt(abs(rcauchy(1, location=0, scale = 1))) )
+K <- 3
+mu <- vector(0, length=K)
+mu <- rep(0, K)
+my
+mu
+class(mu)
+?rnorm
+?t
+z <- rnorm(K, mean=0, sd=1)
+u <- z/sqrt(t(z)%*%z)
+elipt_draw <- function(k){
+#K dimensionality
+K <- k
+# R scalar, from standard cauchy
+R <- sqrt(abs(rcauchy(1, location=0, scale = 1)))
+# mu is a zero vector
+mu <- rep(0, K)
+# z is from standard Normal and will be used to create u
+z <- rnorm(K, mean=0, sd=1)
+# u is unif on surface of K-space hypersphere
+u <- z/sqrt(t(z)%*%z)
+x <- mu + L %*% u * R
+}
+elipt_draw(3)
+L <- matrix(0, nrow = 3, ncol = 3)
+diag(L) <- 1:3
+L[2,1] <- 1.5
+L[3,1] <- 2
+L[3,2] <- 2.5
+elipt_draw(3)
+elipt_draw <- function(k){
+#K dimensionality
+K <- k
+# R scalar, from standard cauchy
+R <- sqrt(abs(rcauchy(1, location=0, scale = 1)))
+# mu is a zero vector
+mu <- rep(0, K)
+# z is from standard Normal and will be used to create u
+z <- rnorm(K, mean=0, sd=1)
+# u is unif on surface of K-space hypersphere
+u <- z/sqrt(t(z)%*%z)
+x <- mu + L %*% u * R
+return(x)
+}
+elipt_draw(3)
+elipt_draw <- function(k){
+#K dimensionality
+K <- k
+# R scalar, from standard cauchy
+R <- sqrt(abs(rcauchy(1, location=0, scale = 1)))
+# mu is a zero vector
+mu <- rep(0, K)
+# z is from standard Normal and will be used to create u
+z <- rnorm(K, mean=0, sd=1)
+# u is unif on surface of K-space hypersphere
+u <- z/sqrt(t(z)%*%z)
+x <- mu + L %*% u * R
+return(t(x))
+}
+elipt_draw(3)
+result1 <- rbind(elipt_draw(3), 100000)
+class(restult1)
+class(result1)
+str(result1)
+restult1 <- as.matrix()
+?as.matrix
+restult1 <- as.matrix(ncol=3)
+restult1 <- matrix(ncol=3)
+result1 <- matrix(ncol=3)
+for (i in 1:100000){
+result1 <- rbind(result1, elipt_draw(3))
+}
+?for
+result1 <- matrix(ncol=3)
+for (i in 1:100000){
+result1 <- rbind(result1, elipt_draw(3))
+}
+L <- matrix(0, nrow = 3, ncol = 3)
+diag(L) <- 1:3
+L[2,1] <- 1.5
+L[3,1] <- 2
+L[3,2] <- 2.5
+elipt_draw <- function(k){
+#K dimensionality
+K <- k
+# R scalar, from standard cauchy
+R <- sqrt(abs(rcauchy(1, location=0, scale = 1)))
+# mu is a zero vector
+mu <- rep(0, K)
+# z is from standard Normal and will be used to create u
+z <- rnorm(K, mean=0, sd=1)
+# u is unif on surface of K-space hypersphere
+u <- z/sqrt(t(z)%*%z)
+x <- mu + L %*% u * R
+return(t(x))
+}
+result1 <- matrix(ncol=3)
+for (i in 1:10){
+result1 <- rbind(result1, elipt_draw(3))
+}
+str(result1)
+head(result1)
+install.packages("truncnorm")
+install.packages("MNP")
+suppressMessages(stopifnot(require(MCMCpack)))
+data(birthwt)
+birthwt$race <- as.factor(birthwt$race)
+post1 <- MCMCprobit(low ~ age + race + smoke, data = birthwt)
+summary(post1)
+suppressMessages(stopifnot(require(truncnorm)))
+y <- birthwt$low
+LB <- ifelse(y == 1, 0, -Inf)
+UB <- ifelse(y == 1, Inf, 0)
+MLE <- glm(low ~ age + race + smoke, data = birthwt,
+family = binomial(link = "probit"))
+X <- model.matrix(MLE)
+N <- nrow(X)
+XtXi <- solve(crossprod(X))
+L <- t(chol(XtXi))
+XtXiXt <- XtXi %*% t(X)
+beta <- coef(MLE)
+post2 <- matrix(NA, nrow = nrow(post1), ncol = length(beta))
+for(i in 1:nrow(post2)) {
+# Draw latent utility conditional on beta and y (through LB and UB)
+ystar <- rtruncnorm(N, a = LB, b = UB, mean = X %*% beta)
+# Regenerate the "OLS" coefficient vector w.r.t. y*
+b <- XtXiXt %*% ystar
+# Draw from the conditional distribution of beta given y*
+beta <- b + L %*% rnorm(ncol(L))
+post2[i,] <- beta
+}
+log_kernel <- function(beta, X, y) {
+sum(dbinom(y, size=1, prob=pnorm(X %*% beta), log=TRUE))
+}
+post3 <- Gibbs(log_kernel, theta = beta, iter = 50, # very slow
+X = X, y = y)
+suppressMessages(stopifnot(require(Runuran)))
+Gibbs <- function(log_kernel, # function outputting logarithm of kernel of posterior distribution
+theta,      # starting values for the posterior parameters
+LB = rep(-Inf, K), UB = rep(Inf, K), # optional vectors of bounds on parameters
+iterations = 10^4, # number of posterior draws to obtain
+...) { # additional constant arguments that are passed to log_kernel(theta, ...)
+K <- length(theta)
+posterior <- matrix(NA, nrow = iterations, ncol = K)
+for(i in 1:iterations) {
+for(k in 1:K) {
+# this is a function of the scalar theta[k], implicitly conditioning on theta[-k]
+full_conditional <- function(theta_k) {
+theta[k] <- theta_k # makes a local copy of theta and replaces its kth element
+return(log_kernel(theta, ...))
+}
+# randomly draw from an approximate inverse CDF for this full-conditional distribution
+theta[k] <- ur(pinv.new(full_conditional, lb = LB[k], ub = UB[k],
+islog = TRUE, center = theta[k])) # current theta[k] is a good center
+}
+posterior[i,] <- theta
+if( (i %% 10) == 0 ) print(paste("Iteration", i, "complete"))
+}
+return(posterior)
+}
+# function outputting logarithm of kernel of posterior distribution
+log_kernel <- function(beta, X, y) {
+sum(dbinom(y, size=1, prob=pnorm(X %*% beta), log=TRUE))
+}
+post3 <- Gibbs(log_kernel, theta = beta, iter = 50, # very slow
+X = X, y = y)
+cbind(colMeans(post1), colMeans(post2)) , colMeans(post3)
+cbind(colMeans(post1), colMeans(post2) , colMeans(post3))
+beta <- as.matrix(post1)
+y_tilde <- apply(X, MARGIN = 1, FUN = function(x) {
+rbinom(n = 10000, size = 1, prob = pnorm(beta %*% x))
+})
+View(y_tilde)
+X[,ncol(X)] <- 1 - X[,ncol(X)] # counterfactual treatment assignment
+y_cf <- apply(X, MARGIN = 1, FUN = function(x) {
+rbinom(n = 10000, size = 1, prob = pnorm(beta %*% x))
+})
+y_ct <- t(y_cf)
+y_tilde <- t(y_tilde)
+ICE <- ifelse(X[,ncol(X)] == 0, # if person is a smoker
+y_tilde - y_cf,   # calculate difference
+y_cf - y_tilde)   # else calculate opposite difference
+parallel::detectCores()       # the number of cores your computer has
+Sys.setenv(MAKEFLAGS = "-j4") # or change 2 to your number of cores if you have enough RAM
+devtools::install_github("stan-dev/rstan", ref = "develop", subdir = "rstan/rstan")
+root <- "https://courseworks.columbia.edu/access/content/group/"
+branch <- "QMSSG4065_001_2015_1/rstanDemo_2.6.1.tar.gz"
+devtools::install_url(paste0(root, branch))
+devtools::source_url("https://github.com/stan-dev/shinystan/raw/master/install_shinystan.R")
+install_shinystan() # asks you to restart R
+library(reshape)
+library(reshape2)
+install.packages("reshape")
+library(deldir)
+install.packages("deldir")
+library(rMaps)
+install.packages("rMaps")
+library(sp)
+setRepositories()
+setwd("/Users/hfresq/Dropbox/2015_Spring/QMSS_5999/rawdata/gss/ICPSR_34802/DS0001/")
+gss <- load("34802-0001-Data.rda")
+class(gss)
+dim(gss)
+gss <- da34802.0001
+class(gss)
+dim(gss)
+names(gss)
+table(gss$YEAR, useNA="always")
+gss94a <- gss2a[which(gss2b$YEAR==1994),]
+gss94a <- gss[which(gss2b$YEAR==1994),]
+gss94a <- gss[which(gss$YEAR==1994),]
+require(devtools)
+install.packages("base64enc")
+install_github('ramnathv/rCharts@dev')
+install_github('ramnathv/rMaps')
+table(gss94a$YEAR, gss2$KDSEX1, useNA="always")
+table(gss94a$YEAR, gss94a$KDSEX1, useNA="always")
+table(gss94a$CHILDS, gss94a$KDSEX1, useNA="always")
+gss94a$VKDREL_NBIO <- 0
+if (gss94a$KDREL1 %in% [2,3] or gss94a$KDREL2 %in% [2,3] or gss94a$KDREL3 %in% [2,3] or
+gss94a$KDREL4 %in% [2,3] or gss94a$KDREL5 %in% [2,3] or gss94a$KDREL6 %in% [2,3] or
+gss94a$KDREL7 %in% [2,3] or gss94a$KDREL8 %in% [2,3] or gss94a$KDREL9 %in% [2,3]){
+gss94a$VKDREL_NBIO <- 1
+}
+gss94a$VKDREL_NBIO <- 0
+if (gss94a$KDREL1 %in% [2,3]){
+gss94a$VKDREL_NBIO <- 1
+}
+if (gss94a$KDREL1 %in% c(2,3){
+gss94a$VKDREL_NBIO <- 1
+}
+if (gss94a$KDREL1 %in% c(2,3)){
+gss94a$VKDREL_NBIO <- 1
+}
+class(gss94a$KDREL1)
+table(gss94a$KDREL1)
+table(gss94a$KDREL1[gss94a$KDREL1==1])
+levels(gss94a$KDREL1)
+VAR <- "KDREL1"
+VAR_v2 <- paste(VAR, "_v2")
+VAR_v2 <- paste(VAR, ".v2")
+VAR_v2 <- paste0(VAR, ".v2")
+source("/Users/hfresq/Dropbox/2015_Spring/QMSS_5999/rawdata/gss/factor_to_numeric.r")
+install.packages(prettyR)
+install.packages('prettyR')
+source("/Users/hfresq/Dropbox/2015_Spring/QMSS_5999/rawdata/gss/factor_to_numeric.r")
+fact_to_num(DF=gss94a, KDREL1)
+fact_to_num(DF=gss94a, VAR=KDREL1)
+rm(VAR)
+rm(VAR_v2)
+fact_to_num(DF=gss94a, VAR=KDREL1)
+source("/Users/hfresq/Dropbox/2015_Spring/QMSS_5999/rawdata/gss/factor_to_numeric.r")
+fact_to_num(DF=gss94a, VAR=KDREL1)
+quote(KDREL1)
+VAR <- KDREL1
+source("/Users/hfresq/Dropbox/2015_Spring/QMSS_5999/rawdata/gss/factor_to_numeric.r")
+fact_to_num(DF=gss94a, VAR=KDREL1)
+fact_to_num(DF=gss94a, VAR=KDREL1)
+DF<-gss94a
+VAR <- KDREL1
+?substitute
+library('rgdal')
+library(rgeos)
+library(rgdal)
+library(sp)
+library(RColorBrewer)
+install.packages('rgdal')
+install.packages('rgdal')
+setwd("/Users/hfresq/Google Drive/QMSS Data Viz/Delhi Data 2008 - 2013/Delhi .ship files/")
+setwd("/Users/hfresq/Google Drive/QMSS Data Viz/Delhi Data 2008 - 2013/Delhi .shp files/")
+subdiv=readOGR("delhi_subdiv.shp", layer="delhi_subdiv")
+install.packages('rgdal')
+library(sp)
+library(rgdal)
+setRepositories()
+library(rgeos)
+install.packages('rgeos')
