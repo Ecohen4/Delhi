@@ -30,13 +30,20 @@
 
 
       /* map boundaries */
-      .subdistrict-boundary {
+      .district-boundary {
         fill: none;
-        stroke: #777;
-        stroke-dasharray: 2,2;
+        stroke: #ffffff;
+        stroke-width: 3;
+        /*stroke-dasharray: 2,2;*/
         stroke-linejoin: round;
       }
 
+      .subdistrict-boundary {
+        fill: none;
+        stroke: #ffffff;
+        stroke-width: 1;
+        stroke-linejoin: round;
+      }
 
       /* features for hover-over lables */
       div.tooltip {
@@ -84,13 +91,13 @@
 
 
   <select id="seVariable" onChange="OnSelectedVarChange2()">
-    <option value="assets_none">No assets</option>
+    <option value="assets_none">No Assets</option>
     <option value="percent_scheduled_caste_to_totalpop">Scheduled Caste</option>
-    <option value="percent_nonworkers_to_total_pop">Non-workers</option>
-    <option value="literacy_rate">Literacy rate</option>
-    <option value="sex_ratio_2011">Sex ratio (male-to-female)</option>
-    <option value="dilapidated_HH">Dilapidated homes</option>
-    <option value="drinking_water_untreated">Untreated drinking water</option>
+    <option value="percent_nonworkers_to_total_pop">Non-Workers</option>
+    <option value="literacy_rate">Illiteracy Rate</option>
+    <option value="sex_ratio_2011">Sex Ratio</option>
+    <option value="dilapidated_HH">Dilapidated Homes</option>
+    <option value="drinking_water_untreated">Untreated Drinking Water</option>
   </select>
 
 
@@ -103,13 +110,14 @@
   var width = 600,
       height = 600;
 
+  var op = 0.7;
+
   var delhiMap1G, delhiMap2G;
   var delhiG, dataG;
   var rate1min, rate1max,
       rate2min, rate2max;
   var colorScale, colorScale2;
-  var varTitle, varDesc,
-      var2Title, var2Desc;
+  var varTitle, var2Title;
 
   var projection = d3.geo.mercator()
       .scale(45000)
@@ -148,6 +156,30 @@
     .style("opacity", 0);
 
 
+  var districts = [
+  d3.set(["p0", "p1", "p2"]), //north west
+  d3.set(["p3", "p4", "p5"]), //west
+  d3.set(["p6", "p7", "p8"]), //north
+  d3.set(["p9", "p11", "p26"]), //north east
+  d3.set(["p10", "p15", "p20"]), //east
+  d3.set(["p12", "p13", "p14"]), //central
+  d3.set(["p16", "p17", "p18"]), //new delhi
+  d3.set(["p19", "p21", "p22"]), //south
+  d3.set(["p23", "p24", "p25"]) //south west
+  ];
+
+  function mouseOut() {
+      // remove highlighting
+      d3.select(this)
+      .attr( "fill-opacity", op)
+      // remove label
+      d3.select(this)
+      .transition().duration(300)
+      .style("opacity", 1);
+      div.transition().duration(300)
+      .style("opacity", 0);
+  }
+
   function generateLegend() {
     // A position encoding for the key only.
     var x = d3.scale.linear()
@@ -161,6 +193,8 @@
         legend_labels[i] = Math.round(colorScale.invertExtent(colors1[i])[1]) ;
       }
     }
+    legend_labels.unshift(rate1min)
+    legend_labels.push(rate1max)
 
     // Create the legend
     var xAxis = d3.svg.axis()
@@ -177,8 +211,8 @@
             g.selectAll("rect")
                 .data(colorScale.range().map(function(d, i) {
                   return {
-                    x0: i ? x(legend_labels[i - 1]) : x.range()[0],
-                    x1: i < legend_labels.length ? x(legend_labels[i]) : x.range()[1],
+                    x0: i ? x(legend_labels[i]) : x.range()[0],
+                    x1: i < legend_labels.length ? x(legend_labels[i+1]) : x.range()[1],
                     z: d
                   };
                 }))
@@ -186,7 +220,8 @@
                 .attr("height", 8)
                 .attr("x", function(d) { return d.x0; })
                 .attr("width", function(d) { return d.x1 - d.x0; })
-                .style("fill", function(d) { return d.z; });
+                .style("fill", function(d) { return d.z; })
+                .attr("fill-opacity", op);
 
           g.call(xAxis).append("text")
               .attr("id", "caption")
@@ -209,6 +244,8 @@
         legend_labels[i] = Math.round(color2Scale.invertExtent(colors2[i])[1]) ;
       }
     }
+    legend_labels.unshift(rate2min)
+    legend_labels.push(rate2max)
 
     // Create the legend
     var xAxis = d3.svg.axis()
@@ -225,8 +262,8 @@
             g.selectAll("rect")
                 .data(color2Scale.range().map(function(d, i) {
                   return {
-                    x0: i ? x(legend_labels[i - 1]) : x.range()[0],
-                    x1: i < legend_labels.length ? x(legend_labels[i]) : x.range()[1],
+                    x0: i ? x(legend_labels[i]) : x.range()[0],
+                    x1: i < legend_labels.length ? x(legend_labels[i+1]) : x.range()[1],
                     z: d
                   };
                 }))
@@ -234,7 +271,8 @@
                 .attr("height", 8)
                 .attr("x", function(d) { return d.x0; })
                 .attr("width", function(d) { return d.x1 - d.x0; })
-                .style("fill", function(d) { return d.z; });
+                .style("fill", function(d) { return d.z; })
+                .attr("fill-opacity", op);
 
           g.call(xAxis).append("text")
               .attr("id", "caption")
@@ -260,10 +298,8 @@
     dataG=data;
 
     varTitle = "Per Capita Energy Usage (kwh)";
-    varDesc = "Annual electricity consumption is measured in KWh per person.";
 
     var2Title = "Percentage of households with no assets";
-    var2Desc = "NA";
 
     var rate1ById = {};
     var rate2ById = {};
@@ -312,6 +348,7 @@
         .data(topojson.feature(delhi, delhi.objects.subdistricts).features)
       .enter().append("path")
         .attr("d", path)
+        .attr("fill-opacity", op)
         .attr( "fill", function(d){
           return colorScale( rate1ById[d.id] );
         })
@@ -319,7 +356,7 @@
         .on("mouseover", function(d) {
           // highlighting
            d3.select(this)
-             .attr("fill", "orange");
+             .attr("fill-opacity", 1)
           // label
           d3.select(this).transition().duration(300).style("opacity", 1);
           div.transition().duration(300)
@@ -329,19 +366,7 @@
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY -30) + "px");
         })
-        .on("mouseout", function() {
-          // remove highlighting
-          d3.select(this)
-          .attr( "fill", function(d){
-            return colorScale( rate1ById[d.id] );
-          })
-          // remove label
-          d3.select(this)
-          .transition().duration(300)
-          .style("opacity", 1);
-          div.transition().duration(300)
-          .style("opacity", 0);
-        })
+        .on("mouseout", mouseOut)
         ;
 
     // subdistrict boundary lines
@@ -351,7 +376,13 @@
         .attr("class", "subdistrict-boundary");
 
 
-
+    // district boundary lines
+    for (i = 0; i < districts.length; i++) {
+      svg.append("path")
+          .datum(topojson.merge(delhi, delhi.objects.subdistricts.geometries.filter(function(d) { return districts[i].has(d.id); })))
+          .attr("class", "district-boundary")
+          .attr("d", path);
+    }
 
 
     // Create the right map and legend
@@ -362,6 +393,7 @@
         .data(topojson.feature(delhi, delhi.objects.subdistricts).features)
       .enter().append("path")
         .attr("d", path2)
+        .attr("fill-opacity", op)
         .attr( "fill", function(d){
           return color2Scale( rate2ById[d.id] );
         })
@@ -369,7 +401,7 @@
         .on("mouseover", function(d) {
           // highlighting
            d3.select(this)
-             .attr("fill", "orange");
+             .attr("fill-opacity", 1);
           // label
           d3.select(this).transition().duration(300).style("opacity", 1);
           div.transition().duration(300)
@@ -379,19 +411,7 @@
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY -30) + "px");
         })
-        .on("mouseout", function() {
-          // remove highlighting
-          d3.select(this)
-          .attr( "fill", function(d){
-            return color2Scale( rate2ById[d.id] );
-          })
-          // remove label
-          d3.select(this)
-          .transition().duration(300)
-          .style("opacity", 1);
-          div.transition().duration(300)
-          .style("opacity", 0);
-        })
+        .on("mouseout", mouseOut)
         ;
 
     // right map subdistrict boundary lines
@@ -400,7 +420,13 @@
         .attr("d", path2)
         .attr("class", "subdistrict-boundary");
 
-
+    // right map district boundary lines
+    for (i = 0; i < districts.length; i++) {
+      svg.append("path")
+          .datum(topojson.merge(delhi, delhi.objects.subdistricts.geometries.filter(function(d) { return districts[i].has(d.id); })))
+          .attr("class", "district-boundary")
+          .attr("d", path2);
+    }
 
 
   } //<- close definition of ready function
@@ -432,23 +458,18 @@
       if (eVar == "percap_kwh_usage") {
         rate1ById[d.Subdistrict_MapID] = +d.percap_kwh_usage;
         varTitle = eTxt + " (kwh)";
-        varDesc = "Annual electricity consumption is measured in KWh per person.";
       } else if (eVar == "comp_outage_duration") {
         rate1ById[d.Subdistrict_MapID] = +d.comp_outage_duration;
         varTitle = eTxt + " (minutes)";
-        varDesc = "A complete energy outage is a period in which recorded power consumption was zero. The duration of an energy outage is the number of consecutive minutes during which the outage occured.";
       } else if (eVar == "part_outage_duration") {
         rate1ById[d.Subdistrict_MapID] = +d.part_outage_duration;
         varTitle = eTxt + " (minutes)";
-        varDesc = "A partial energy outage is a period in which recorded power consumption was 1.5 standard deviations below the mean power consumption for a particular timeslot, week day, and season. The duration of an energy outage is the number of consecutive minutes during which the outage occured.";
       } else if (eVar == "comp_outage_freq") {
         rate1ById[d.Subdistrict_MapID] = +d.comp_outage_freq;
         varTitle = eTxt;
-        varDesc = "A complete energy outage is a period in which recorded power consumption was zero. The frequency of energy outages is the number of non-consecutive outage events.";
       } else if (eVar == "part_outage_freq") {
         rate1ById[d.Subdistrict_MapID] = +d.part_outage_freq;
         varTitle = eTxt;
-        varDesc = "A partial energy outage is a period in which recorded power consumption was 1.5 standard deviations below the mean power consumption for a particular timeslot, week day, and season. The frequency of energy outages is the number of non-consecutive outage events.";
       }
     });
 
@@ -477,7 +498,7 @@
       .on("mouseover", function(d) {
         // highlighting
          d3.select(this)
-           .attr("fill", "orange");
+           .attr("fill-opacity", 1);
         // label
         d3.select(this).transition().duration(300).style("opacity", 1);
         div.transition().duration(300)
@@ -487,29 +508,8 @@
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY -30) + "px");
       })
-      .on("mouseout", function() {
-        // remove highlighting
-        d3.select(this)
-        .attr( "fill", function(d){
-          return colorScale( rate1ById[d.id] );
-        })
-        // remove label
-        d3.select(this)
-        .transition().duration(300)
-        .style("opacity", 1);
-        div.transition().duration(300)
-        .style("opacity", 0);
-      })
+      .on("mouseout", mouseOut)
       ;
-
-
-      // add additional notes
-      //svg.append("text")
-      //    .attr("class", "notes")
-      //    .attr("x",5)
-      //    .attr("y",height-100)
-      //    .text(varDesc);
-
 
   } //<- end OnSelectedVarChange
 
@@ -538,32 +538,25 @@
       nameById[d.Subdistrict_MapID] = d.name;
       if (eVar == "assets_none") {
         rate2ById[d.Subdistrict_MapID] = +d.assets_none;
-        var2Title = "Percentage of households with no assets";
-        var2Desc = "NA";
+        var2Title = "Percentage of Households with No Assets";
       } else if (eVar == "percent_scheduled_caste_to_totalpop") {
         rate2ById[d.Subdistrict_MapID] = +d.percent_scheduled_caste_to_totalpop;
-        var2Title = "Percentage of population belonging to a Scheduled Caste";
-        var2Desc = "NA";
+        var2Title = "Percentage of Population Belonging to a Scheduled Caste";
       } else if (eVar == "percent_nonworkers_to_total_pop") {
         rate2ById[d.Subdistrict_MapID] = +d.percent_nonworkers_to_total_pop;
-        var2Title = "Percentage of population not working";
-        var2Desc = "NA";
+        var2Title = "Percentage of Population Not Working";
       } else if (eVar == "literacy_rate") {
-        rate2ById[d.Subdistrict_MapID] = +d.literacy_rate;
+        rate2ById[d.Subdistrict_MapID] = (100 - +d.literacy_rate);
         var2Title = eTxt + " (percent)";
-        var2Desc = "NA";
       } else if (eVar == "sex_ratio_2011") {
         rate2ById[d.Subdistrict_MapID] = +d.sex_ratio_2011;
         var2Title = "Sex Ratio (number of females for every 1,000 males)";
-        var2Desc = "NA";
       } else if (eVar == "dilapidated_HH") {
         rate2ById[d.Subdistrict_MapID] = +d.dilapidated_HH;
-        var2Title = "Dilapidated houses (as % of total households)";
-        var2Desc = "NA";
+        var2Title = "Dilapidated Houses (as % of total households)";
       } else if (eVar == "drinking_water_untreated") {
         rate2ById[d.Subdistrict_MapID] = +d.drinking_water_untreated;
-        var2Title = "Percent of households drinking untreated water";
-        var2Desc = "NA";
+        var2Title = "Percent of Households Drinking Untreated Water";
       }
     });
 
@@ -592,7 +585,7 @@
       .on("mouseover", function(d) {
         // highlighting
          d3.select(this)
-           .attr("fill", "orange");
+           .attr("fill-opacity", 1);
         // label
         d3.select(this).transition().duration(300).style("opacity", 1);
         div.transition().duration(300)
@@ -602,19 +595,7 @@
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY -30) + "px");
       })
-      .on("mouseout", function() {
-        // remove highlighting
-        d3.select(this)
-        .attr( "fill", function(d){
-          return color2Scale( rate2ById[d.id] );
-        })
-        // remove label
-        d3.select(this)
-        .transition().duration(300)
-        .style("opacity", 1);
-        div.transition().duration(300)
-        .style("opacity", 0);
-      })
+      .on("mouseout", mouseOut)
       ;
 
 
@@ -645,8 +626,8 @@
   <li>Households with no appliances includes households that had none of the following assets/appliances: radio, TV, computer, telephone, bicycle, motorcycle, car.
   <li>Scheduled Castes are historically disadvantaged castes, races, or tribes specified by the Indian government.
   <li>Non-workers are those who did not work at all during the reference period. This includes students who did not enage in any economic activity paid or unpaid, dependents, and others with unidentified sources of income.
-  <li>Literacy rate is percent of literate persons in the subdistrict. A literate person is defined to be persons aged 7 years and above who can both read and write with understanding in any language.
-  <li>Sex ratio (male-to-female) is the number of females for every 1,000 males.
+  <li>Illiteracy rate is percent of illiterate persons in the subdistrict. A literate person is defined to be persons aged 7 years and above who can both read and write with understanding in any language.
+  <li>Sex ratio is the number of females for every 1,000 males.
   <li>Dilapidated homes are homes which show signs of decay or those breaking down and required major repairs and are far from being in condition that can be restored or repaired.
   <li>Untreated drinking water measures the percentage of households drinking tap water from an untreated source.
   </ul>
