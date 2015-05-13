@@ -77,7 +77,7 @@
     <em>By Sou Min Sonia Lee, Elliot Cohen and Hannah Fresques</em><br>
     <br>
     Energy use and outage events from 22 power grids in Delhi were recorded from March 28, 2011 to March 25, 2012 (364 days).
-    Energy data was allocated to Delhi's 27 sub-districts using area-based weights, and combined with socioeconomic data from the 2012 Delhi Census.
+    Energy data was allocated to Delhi's 27 sub-districts using area-based weights, and combined with socioeconomic data from the 2011 Delhi Census.
     <br>
   </p>
 
@@ -190,7 +190,11 @@
     var legend_labels = [];
     for (i = 0; i < colors1.length; i++) {
       if (i < colors1.length - 1) {
-        legend_labels[i] = Math.round(colorScale.invertExtent(colors1[i])[1]) ;
+        if (rate1max > 100) { // round to integer if values are large
+          legend_labels[i] = Math.round(colorScale.invertExtent(colors1[i])[1]);
+        } else { // round to one decimal if values are small
+          legend_labels[i] = +((colorScale.invertExtent(colors1[i])[1]).toFixed(1));
+        }
       }
     }
     legend_labels.unshift(rate1min)
@@ -241,7 +245,11 @@
     var legend_labels = [];
     for (i = 0; i < colors2.length; i++) {
       if (i < colors2.length - 1) {
-        legend_labels[i] = Math.round(color2Scale.invertExtent(colors2[i])[1]) ;
+        if (rate2max > 100) { // round to integer if values are large
+          legend_labels[i] = Math.round(color2Scale.invertExtent(colors2[i])[1]);
+        } else { // round to one decimal if values are small
+          legend_labels[i] = +((color2Scale.invertExtent(colors2[i])[1]).toFixed(1));
+        }
       }
     }
     legend_labels.unshift(rate2min)
@@ -362,7 +370,7 @@
           div.transition().duration(300)
           .style("opacity", 1)
           div.text(nameById[d.id] + ": "
-                                  + Math.round(rate1ById[d.id]) )
+                                  + (rate1ById[d.id]).toFixed(1) )
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY -30) + "px");
         })
@@ -407,7 +415,7 @@
           div.transition().duration(300)
           .style("opacity", 1)
           div.text(nameById[d.id] + ": "
-                                  + Math.round(rate2ById[d.id]) )
+                                  + (rate2ById[d.id]).toFixed(1) )
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY -30) + "px");
         })
@@ -504,7 +512,7 @@
         div.transition().duration(300)
         .style("opacity", 1)
         div.text(nameById[d.id] + ": "
-                                + Math.round(rate1ById[d.id]) )
+                                + (rate1ById[d.id]).toFixed(1) )
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY -30) + "px");
       })
@@ -591,7 +599,7 @@
         div.transition().duration(300)
         .style("opacity", 1)
         div.text(nameById[d.id] + ": "
-                                + Math.round(rate2ById[d.id]) )
+                                + (rate2ById[d.id]).toFixed(1) )
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY -30) + "px");
       })
