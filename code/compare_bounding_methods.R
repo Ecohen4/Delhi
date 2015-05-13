@@ -131,7 +131,7 @@ legend("topright",
        lty=1, bty='n', cex=.75)
 
 NDPL <- NDPL[order(NDPL$dt),]
-plot(NDPL$dt,NDPL$original_MU,"l",ylim=c(0, 0.45),col="green",main = "compare NDPL")
+plot(NDPL$dt,NDPL$original_MU,"l",ylim=c(0, 1.5),col="green",main = "compare NDPL")
 lines(NDPL$dt,NDPL$method1_MU,col="red")
 lines(NDPL$dt,NDPL$method2_MU,col="blue")
 legend("topright",
@@ -139,4 +139,61 @@ legend("topright",
        col=c( 'green','red', 'blue'),
        lty=1, bty='n', cex=.75)
 
+# ggplot #####
+library(reshape2)
+library(ggplot2)
+
+compare2 <- melt(compare, id=c("discom","dt","YR","M","D","HR"))
+str(compare2)
+
+compare2$variable <- as.character(compare2$variable)
+compare2[which(compare2$variable=="original_MU"),]$variable <- "original"
+compare2[which(compare2$variable=="method1_MU"),]$variable <- "delhi_bound"
+compare2[which(compare2$variable=="method2_MU"),]$variable <- "discom_bound"
+
+compare2$value <- compare2$value * 1000
+colnames(compare2)[7:8] <- c("method","MW")
+compare2$method <- as.factor(compare2$method)
+
+compare2 <- compare2[order(compare2$dt),]
+
+# hourly resolution
+ggplot(compare2,aes(x = dt,y = MW,color = method)) +
+         geom_line() +
+         facet_wrap (~discom, nrow=5)
+
+# daily resolution
+compare3 <- aggregate(x = list(MW = compare2$MW), 
+                      by = list(compare2$discom,
+                                compare2$YR,
+                                compare2$M,
+                                compare2$D,
+                                compare2$method), 
+                      FUN = sum)
+colnames(compare3) <- c("discom","YR","M","D","method","MW")
+compare3$dt <- as.POSIXct(paste(compare3$YR, compare3$M,compare3$D),format="%Y%m%d")
+compare3 <- compare3[order(compare3$dt),]
+
+ggplot(compare3,aes(x = dt,y = MW/1000,color = method)) +
+  geom_line() +
+  facet_wrap (~discom, scale="free_y", nrow=5)
+
+# daily resolution
+compare4 <- compare3
+compare4$day <- weekdays(as.Date(compare4$dt))
+
+compare3 <- aggregate(x = list(MW = compare2$MW), 
+                      by = list(compare2$discom,
+                                compare2$YR,
+                                compare2$M,
+                                compare2$D,
+                                compare2$method), 
+                      FUN = sum)
+colnames(compare3) <- c("discom","YR","M","D","method","MW")
+compare3$dt <- as.POSIXct(paste(compare3$YR, compare3$M,compare3$D),format="%Y%m%d")
+compare3 <- compare3[order(compare3$dt),]
+
+ggplot(compare3,aes(x = dt,y = MW,color = method)) +
+  geom_line() +
+  facet_wrap (~discom, nrow=5)
 

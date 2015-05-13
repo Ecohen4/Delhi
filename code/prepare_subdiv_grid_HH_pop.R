@@ -40,7 +40,7 @@ hh_pop_all$num_tv.pc.ph.car <- hh_pop_all$percent_tv.pc.ph.car * hh_pop_all$num_
 #### Delhi bounded: prepare grid level data ####
 ################################################
 
-#hh_pop_all <- read.csv("data/subdiv_hh_pop_7.csv",head=T)
+hh_pop_all <- read.csv("data/subdiv_hh_pop_7.csv",head=T)
 library(plyr)
 
 # calculate weight between grid, subdiv and intersection polygon between (grid,subdiv)
@@ -112,4 +112,73 @@ aggdata_grid$percent_tv.pc.ph.car <- aggdata_grid$num_tv.pc.ph.car / aggdata_gri
 #################################################
 #### Discom bounded: prepare grid level data ####
 #################################################
+
+weight <- read.csv("data/discom_bounded_intersection_weight.csv",header=TRUE)
+colnames(weight)
+#sum(weight[which(weight$id_subdiv=="Defence Colony"),]$weight_in_subdiv)
+weight <- weight[,c("id_subdiv","id_intersect","grid","weight_in_subdiv")]
+colnames(weight)[1:2] <- c("subdiv","intersect")
+
+
+# make subdiv name consistent
+sub_hp <- unique(hh_pop_all$subdiv)
+sub_w <- unique(weight$subdiv)
+sub_hp <- as.data.frame(sub_hp)
+sub_w <- as.data.frame(sub_w)
+sub_hp <- sub_hp[order(sub_hp),]
+sub_w <- sub_w[order(sub_w),]
+sub_hp <- as.data.frame(sub_hp)
+sub_w <- as.data.frame(sub_w)
+
+compare_subdivname <- cbind(sub_hp,sub_w)
+colnames(compare_subdivname) <- c("sub_hp","subdiv")
+
+weight <- merge(compare_subdivname,weight,by=c("subdiv"))
+weight <- weight[,c(-1,-3)]
+colnames(weight)[1] <- "subdiv"
+
+# calculate for grid level pop hh data ####
+
+# calculate at intersection level pop hh data
+cal_grid_hh_pop <- merge(hh_pop_all,weight,by=c("subdiv"))
+colnames(cal_grid_hh_pop)
+cal_grid_hh_pop <- cal_grid_hh_pop[,c(-2)]
+
+cal_grid_hh_pop$num_of_households <- cal_grid_hh_pop$num_of_households * cal_grid_hh_pop$weight_in_subdiv
+cal_grid_hh_pop$num_of_population <- cal_grid_hh_pop$num_of_population * cal_grid_hh_pop$weight_in_subdiv
+cal_grid_hh_pop$num_of_males <- cal_grid_hh_pop$num_of_males * cal_grid_hh_pop$weight_in_subdiv
+cal_grid_hh_pop$num_of_females <- cal_grid_hh_pop$num_of_females * cal_grid_hh_pop$weight_in_subdiv
+cal_grid_hh_pop$num_literacy <- cal_grid_hh_pop$num_literacy * cal_grid_hh_pop$weight_in_subdiv
+cal_grid_hh_pop$num_scheduled_caste <- cal_grid_hh_pop$num_scheduled_caste * cal_grid_hh_pop$weight_in_subdiv
+cal_grid_hh_pop$num_nonworkers <- cal_grid_hh_pop$num_nonworkers * cal_grid_hh_pop$weight_in_subdiv
+cal_grid_hh_pop$num_dilapidated <- cal_grid_hh_pop$num_dilapidated * cal_grid_hh_pop$weight_in_subdiv
+cal_grid_hh_pop$num_room_3more <- cal_grid_hh_pop$num_room_3more * cal_grid_hh_pop$weight_in_subdiv
+cal_grid_hh_pop$num_tv.pc.ph.car <- cal_grid_hh_pop$num_tv.pc.ph.car * cal_grid_hh_pop$weight_in_subdiv
+
+
+# aggregate pop hh data to grid level
+aggdata_grid <-aggregate(x = list( 
+  num_of_households = cal_grid_hh_pop$num_of_households,
+  num_of_population = cal_grid_hh_pop$num_of_population,
+  num_of_males = cal_grid_hh_pop$num_of_males,
+  num_of_females = cal_grid_hh_pop$num_of_females, 
+  num_literacy = cal_grid_hh_pop$num_literacy,
+  num_nonworkers = cal_grid_hh_pop$num_nonworkers,
+  num_scheduled_caste = cal_grid_hh_pop$num_scheduled_caste,
+  num_dilapidated = cal_grid_hh_pop$num_dilapidated, 
+  num_room_3more = cal_grid_hh_pop$num_room_3more,
+  num_tv.pc.ph.car  =cal_grid_hh_pop$num_tv.pc.ph.car 
+), 
+by = list(cal_grid_hh_pop$grid), 
+FUN = sum)
+
+aggdata_grid$sex_ratio <- aggdata_grid$num_of_females / aggdata_grid$num_of_males * 1000
+aggdata_grid$percent_literacy <- aggdata_grid$num_literacy / aggdata_grid$num_of_population * 100
+aggdata_grid$percent_scheduled_caste <- aggdata_grid$num_scheduled_caste / aggdata_grid$num_of_population * 100
+aggdata_grid$percent_nonworkers <- aggdata_grid$num_nonworkers / aggdata_grid$num_of_population * 100
+aggdata_grid$percent_dilapidated <- aggdata_grid$num_dilapidated / aggdata_grid$num_of_households * 100
+aggdata_grid$percent_room_3more <- aggdata_grid$num_room_3more / aggdata_grid$num_of_households * 100
+aggdata_grid$percent_tv.pc.ph.car <- aggdata_grid$num_tv.pc.ph.car / aggdata_grid$num_of_households * 100
+
+write.csv(aggdata_grid,"data/discom_bounded_grid_hh_pop_7.csv")
 
