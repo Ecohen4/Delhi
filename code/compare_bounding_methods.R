@@ -160,7 +160,7 @@ compare2 <- compare2[order(compare2$dt),]
 # hourly resolution
 ggplot(compare2,aes(x = dt,y = MW,color = method)) +
          geom_line() +
-         facet_wrap (~discom, nrow=5)
+         facet_wrap (~discom, scale="free_y",nrow=5)
 
 # daily resolution
 compare3 <- aggregate(x = list(MW = compare2$MW), 
