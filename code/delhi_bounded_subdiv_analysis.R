@@ -1,5 +1,66 @@
+library(plyr)
 
-setwd("~/Documents/github/Delhi/data")
+setwd("~/Documents/github/Delhi")
+
+##########################################################
+##### Compare with discom demand from another source #####
+##########################################################
+
+
+#### Get hourly demand for grids ####
+# read in grid level hourly demand data ####
+hrly_demand <-  read.csv("bigfiles/Delhi_Girds_Hourly_Demand.csv",head=T)
+
+#### Estimate hourly demand for discoms from grids ####
+# 1.read in discom demand from another source ####
+discom_demand1 <- read.csv("bigfiles/Delhi_Discoms_Hourly_Demand.csv",head=T)
+
+# change into a comparable format
+discom_demand1$MU <- discom_demand1$MW / 1000 
+discom_demand1 <- discom_demand1[,c(-6)]
+id_discom <- sapply(discom_demand1$city,function(x) strsplit(as.character(x)," "))
+test <- as.data.frame(id_discom)
+discom_demand1$id_discom <- t(test)[,3]
+rm(test)
+discom_demand1 <- discom_demand1[,c(-1)]
+
+
+# 2.estimate discom demand #####
+# read in some files
+mapping <- read.csv("data/delhi_bounded_intersection_weight.csv")
+mapping <- mapping[,c(-1,-3)]
+#mapping <- unique(mapping)
+
+grid_meter <- read.csv("data/grid_meter.csv")
+colnames(grid_meter) <- c("id_grid","meter")
+
+# add "discom" column to the hourly demand data
+refer <- merge(grid_meter,mapping, by=c('id_grid'))
+hrly_demand2 <- hrly_demand
+colnames(hrly_demand2)[2] <- "meter"
+
+hrly_demand2 <- merge(hrly_demand2,refer, by=c("meter"))
+hrly_demand2$MU_intersect <- hrly_demand2$MU * hrly_demand2$weight_in_grid
+
+# summing over same discoms
+discom_demand2 <- ddply(hrly_demand2, c("id_discom","YR","M","D","HR"),summarise,discom_MU = sum(MU_intersect))
+
+# 3. compare accross versions #####
+test <- merge(discom_demand1,discom_demand2,by=c("id_discom","YR","M","D","HR"))
+colnames(test) <- c("discom","YR","M","D","HR","MU_1","MU_2")
+
+test$diff <- test$MU_1 - test$MU_2
+test$diff_perc <- test$diff / test$MU_1
+
+plot((1:length(test$diff)),test$diff,'l',col = "blue")
+plot((1:length(test$diff_perc)),test$diff_perc,'l',col = "red")
+
+write.csv(test,"bigfiles/delhi_bounded_discom_demand_compare.csv")
+
+####################################
+##### Analysis at subdiv level #####
+####################################
+
 
 # read in coeffeicient and socioeconomic data
 coefficient <- read.csv('coefficients.delhi.grids.csv', header=TRUE)
